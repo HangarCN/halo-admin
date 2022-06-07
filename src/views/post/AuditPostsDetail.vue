@@ -22,7 +22,7 @@
               <post-tag v-for="(tag, index) in postDetail.tags" :key="index" :tag="tag" style="margin-bottom: 8px" />
             </a-descriptions-item>
             <a-descriptions-item label="文章详情">
-              <a-button type="primary" @click="viewPosts" @>查看文章详情</a-button>
+              <a-button type="link" @click="viewPosts" @>查看文章详情</a-button>
             </a-descriptions-item>
           </a-descriptions>
         </div>

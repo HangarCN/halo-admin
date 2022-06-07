@@ -1,7 +1,8 @@
 <template>
   <div class="container-wrapper animated fadeIn">
     <div class="halo-logo">
-      <img alt="Halo Logo" src="/images/logo.svg" />
+      <!--<img alt="Halo Logo" src="/images/logo.svg" />-->
+      <h2 style="font-size: 26px; font-weight: 600">专题管理系统</h2>
     </div>
     <div class="login-form">
       <LoginForm @success="onLoginSucceed" />

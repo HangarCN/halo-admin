@@ -23,7 +23,7 @@ export const asyncRouterMap = [
         name: 'Posts',
         component: BlankLayout,
         redirect: '/posts/list',
-        meta: { title: '文章', icon: 'form' },
+        meta: { title: '专题管理', icon: 'form' },
         children: [
           {
             path: '/posts/list',
@@ -132,12 +132,12 @@ export const asyncRouterMap = [
       },
 
       // comments
-      {
+      /*{
         path: '/comments',
         name: 'Comments',
         component: () => import('@/views/comment/CommentList'),
         meta: { title: '评论', icon: 'message', hiddenHeaderContent: false }
-      },
+      },*/
 
       // interface
       {
@@ -175,7 +175,7 @@ export const asyncRouterMap = [
       },
 
       // user
-      {
+      /*{
         path: '/user',
         name: 'User',
         component: PageView,
@@ -189,7 +189,7 @@ export const asyncRouterMap = [
             meta: { title: '个人资料', hiddenHeaderContent: false }
           }
         ]
-      },
+      },*/
 
       // system
       {
@@ -210,7 +210,7 @@ export const asyncRouterMap = [
             path: '/system/options',
             name: 'SystemOptions',
             component: () => import('@/views/system/SystemOptions'),
-            meta: { title: '博客设置', hiddenHeaderContent: false }
+            meta: { title: '网站设置', hiddenHeaderContent: false }
           },
           {
             path: '/system/tools',
@@ -224,13 +224,13 @@ export const asyncRouterMap = [
             hidden: true,
             component: () => import('@/views/system/ActionLogs'),
             meta: { title: '操作日志', hiddenHeaderContent: false }
-          },
-          {
+          }
+          /*{
             path: '/system/about',
             name: 'About',
             component: () => import('@/views/system/About'),
             meta: { title: '关于', hiddenHeaderContent: false }
-          }
+          }*/
         ]
       }
     ]

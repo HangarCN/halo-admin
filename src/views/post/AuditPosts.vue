@@ -16,6 +16,7 @@ import { PageView } from '@/layouts'
 import PostListView from '@/components/Post/PostListView'
 import { auditPostsColumns, postStatuses } from '@/core/constant'
 import axios from 'axios'
+import storage from 'store'
 export default {
   name: 'AuditPosts',
   components: {
@@ -32,12 +33,12 @@ export default {
     const axiosConfig = {
       method: 'get',
       headers: {
-        Authorization: window.localStorage.getItem('Access-Token'),
+        Authorization: `Bearer ${storage.get('Access-Token')}`,
         'Content-Type': 'application/json'
       }
     }
     axios({
-      url: '/api/admin/posts/page-to-be-audit?page=0&size=10&more=true',
+      url: '/api/admin/posts/page-to-be-audit',
       ...axiosConfig
     }).then(resp => {
       console.log(resp)

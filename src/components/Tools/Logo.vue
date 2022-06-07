@@ -1,12 +1,13 @@
 <template>
   <div class="logo">
-    <img
+    <h1 style="color: white; font-size: 26px; font-weight: 600" @click="onLogoClick()">专题管理系统</h1>
+    <!--<img
       :style="{ width: sidebarOpened ? '64px' : '48px' }"
       alt="Halo Logo"
       class="select-none cursor-pointer hover:brightness-125 transition-all"
       src="/images/logo.svg"
       @click="onLogoClick()"
-    />
+    />-->
   </div>
 </template>
 
@@ -30,6 +31,7 @@ export default {
   methods: {
     ...mapActions(['refreshOptionsCache']),
     onLogoClick: throttle(async function () {
+      console.log('clicked!')
       this.clickCount++
       if (this.clickCount === 10) {
         try {

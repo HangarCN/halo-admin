@@ -150,10 +150,10 @@
       ></ReactiveButton>
       <ReactiveButton
         :errored="form.saveErrored"
-        :erroredText="`${hasId ? '保存' : '发布'}失败`"
-        :loadedText="`${hasId ? '保存' : '发布'}成功`"
+        :erroredText="`${hasId ? '保存' : '提交'}失败`"
+        :loadedText="`${hasId ? '保存' : '提交'}成功`"
         :loading="form.saving"
-        :text="`${hasId ? '保存' : '发布'}`"
+        :text="`${hasId ? '保存' : '提交审核'}`"
         @callback="handleSavedCallback()"
         @click="handleSave()"
       ></ReactiveButton>

@@ -1,11 +1,6 @@
 <template>
   <page-view>
-    <PostListView
-      ref="postListView"
-      :columns="postColumns"
-      :default-statuses="[postStatuses.PUBLISHED.value, postStatuses.DRAFT.value, postStatuses.INTIMATE.value]"
-      @change:params="onChangeParams"
-    >
+    <PostListView ref="postListView" :columns="postColumns" @change:params="onChangeParams">
       <template #operator-before>
         <router-link :to="{ name: 'PostWrite' }">
           <a-button icon="plus" type="primary">写文章</a-button>

@@ -18,11 +18,11 @@
                 {{ category.name }}
               </a-tag>
             </a-descriptions-item>
+            <a-descriptions-item label="标签">
+              <post-tag v-for="(tag, index) in postDetail.tags" :key="index" :tag="tag" style="margin-bottom: 8px" />
+            </a-descriptions-item>
             <a-descriptions-item label="文章详情">
-              <div
-                style="border: 1px solid #e9e9e9; border-radius: 6px; padding: 16px"
-                v-html="postDetail.content"
-              ></div>
+              <a-button type="primary" @click="viewPosts" @>查看文章详情</a-button>
             </a-descriptions-item>
           </a-descriptions>
         </div>
@@ -50,31 +50,37 @@
         </a-form-model>
       </div>
     </a-spin>
+    <postsViewer v-model="postsViewerVisible" :postDetail="postDetail" @close="handledPostsViewerClose"></postsViewer>
   </page-view>
 </template>
 
 <script>
 import { PageView } from '@/layouts'
-
 import apiClient from '@/utils/api-client'
-
+import postsViewer from '@/views/post/components/PostsViewer'
 import axios from 'axios'
+import storage from 'store'
+
 export default {
   name: 'AuditPostsDetail',
   components: {
-    PageView
+    PageView,
+    postsViewer
   },
   data() {
     return {
       spinning: false,
       form: {
         status: '',
-        auditReason: ''
+        auditReason: '',
+        auditUserId: this.$store.getters.user.id,
+        auditUserName: this.$store.getters.user.name
       },
       rules: {
         status: [{ required: true, message: '请选择审批结果', trigger: 'change' }]
       },
-      postDetail: {}
+      postDetail: {},
+      postsViewerVisible: false
     }
   },
   mounted() {
@@ -90,13 +96,12 @@ export default {
 
     onSubmit() {
       this.$refs.formModelRefs.validate(valid => {
-        const body = JSON.parse(JSON.stringify(this.postDetail))
-        body.status = this.form.status
-        body.auditReason = this.form.auditReason
+        let body = JSON.parse(JSON.stringify(this.postDetail))
+        body = Object.assign(body, this.form)
         const axiosConfig = {
           method: 'put',
           headers: {
-            Authorization: window.localStorage.getItem('Access-Token'),
+            Authorization: `Bearer ${storage.get('Access-Token')}`,
             'Content-Type': 'application/json'
           },
           data: body
@@ -142,6 +147,14 @@ export default {
 
     onCancel() {
       this.$router.go(-1)
+    },
+
+    viewPosts() {
+      this.postsViewerVisible = true
+    },
+
+    handledPostsViewerClose() {
+      this.postsViewerVisible = false
     }
   }
 }

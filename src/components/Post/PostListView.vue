@@ -505,7 +505,6 @@ export default {
     return {
       postStatuses,
       normalPostStatuses,
-
       list: {
         data: [],
         loading: false,

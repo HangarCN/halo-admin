@@ -12,11 +12,16 @@ import '@/filters/filter' // global filter
 import './components'
 import pkg from '../package.json'
 
+import { VueAxios } from './utils/request'
+
 Vue.config.productionTip = false
 Vue.prototype.VERSION = pkg.version
 
 Vue.use(router)
 Vue.use(Contextmenu)
+
+// mount axios to `Vue.$http` and `this.$http`
+Vue.use(VueAxios)
 
 new Vue({
   router,

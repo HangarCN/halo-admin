@@ -36,7 +36,7 @@
         >
           <a-form-model-item label="审批结果" prop="status">
             <a-radio-group v-model="form.status">
-              <a-radio value="APPROVED"> 审核通过 </a-radio>
+              <a-radio value="PUBLISHED"> 审核通过 </a-radio>
               <a-radio value="AUDIT_NO_PASS"> 审核不通过 </a-radio>
             </a-radio-group>
           </a-form-model-item>
@@ -58,8 +58,6 @@
 import { PageView } from '@/layouts'
 import apiClient from '@/utils/api-client'
 import postsViewer from '@/views/post/components/PostsViewer'
-import axios from 'axios'
-import storage from 'store'
 
 export default {
   name: 'AuditPostsDetail',
@@ -98,20 +96,13 @@ export default {
       this.$refs.formModelRefs.validate(valid => {
         let body = JSON.parse(JSON.stringify(this.postDetail))
         body = Object.assign(body, this.form)
-        const axiosConfig = {
-          method: 'put',
-          headers: {
-            Authorization: `Bearer ${storage.get('Access-Token')}`,
-            'Content-Type': 'application/json'
-          },
-          data: body
-        }
         if (valid) {
           this.spinning = true
-          if (this.form.auditReason === 'APPROVED') {
-            axios({
+          if (this.form.auditReason === 'PUBLISHED') {
+            this.$http({
+              method: 'put',
               url: `/api/admin/posts/${this.$route.query.id}/approved`,
-              ...axiosConfig
+              data: body
             })
               // eslint-disable-next-line
               .then(resp => {
@@ -125,9 +116,10 @@ export default {
                 this.spinning = false
               })
           } else {
-            axios({
+            this.$http({
+              method: 'put',
               url: `/api/admin/posts/${this.$route.query.id}/auditnopass`,
-              ...axiosConfig
+              data: body
             })
               // eslint-disable-next-line
               .then(resp => {

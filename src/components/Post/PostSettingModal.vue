@@ -128,17 +128,17 @@
     <template #footer>
       <slot name="extraFooter" />
       <ReactiveButton
-        v-if="draftSaveVisible"
+        v-if="draftSaveVisible || hasId"
         :errored="form.draftSaveErrored"
         :loading="form.draftSaving"
-        :text="`${hasId ? '转为' : '保存'}草稿`"
+        :text="`${hasId && draftSaveVisible ? '转为' : '保存'}草稿`"
         erroredText="保存失败"
         loadedText="保存成功"
         type="danger"
         @callback="handleSavedCallback()"
         @click="handleSaveDraft()"
       ></ReactiveButton>
-      <ReactiveButton
+      <!--<ReactiveButton
         v-if="publishVisible"
         :errored="form.publishErrored"
         :loading="form.publishing"
@@ -147,15 +147,26 @@
         text="转为发布"
         @callback="handleSavedCallback()"
         @click="handlePublish()"
+      ></ReactiveButton>-->
+      <ReactiveButton
+        v-if="publishVisible"
+        :errored="form.saveErrored"
+        erroredText="提交失败"
+        loadedText="提交成功"
+        :loading="form.saving"
+        text="提交审核"
+        @callback="handleSavedCallback()"
+        @click="handleAudit()"
       ></ReactiveButton>
       <ReactiveButton
+        v-else
         :errored="form.saveErrored"
-        :erroredText="`${hasId ? '保存' : '提交'}失败`"
-        :loadedText="`${hasId ? '保存' : '提交'}成功`"
+        erroredText="提交失败"
+        loadedText="提交成功"
         :loading="form.saving"
-        :text="`${hasId ? '保存' : '提交审核'}`"
+        text="提交审核"
         @callback="handleSavedCallback()"
-        @click="handleSave()"
+        @click="handleAudit()"
       ></ReactiveButton>
       <a-button :disabled="loading" @click="modalVisible = false">关闭</a-button>
     </template>
@@ -375,6 +386,22 @@ export default {
       } finally {
         setTimeout(() => {
           this.form.publishing = false
+        }, 400)
+      }
+    },
+
+    async handleAudit() {
+      try {
+        this.form.saving = true
+        this.form.model.status = this.postStatuses.TO_BE_AUDIT.value
+
+        await this.handleCreateOrUpdate()
+      } catch (e) {
+        this.form.saveErrored = true
+        this.$log.error('Failed to save post', e)
+      } finally {
+        setTimeout(() => {
+          this.form.saving = false
         }, 400)
       }
     },

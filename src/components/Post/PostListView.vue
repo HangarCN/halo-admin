@@ -357,63 +357,75 @@
           </template>
 
           <template #action="text, post">
-            <span v-if="!isAuditPage">
-              <a-button
-                v-if="
-                  [postStatuses.PUBLISHED.value, postStatuses.DRAFT.value, postStatuses.INTIMATE.value].includes(
-                    post.status
-                  )
-                "
-                class="!p-0"
-                type="link"
-                @click="handleEditClick(post)"
-              >
-                编辑
-              </a-button>
+            <a-button
+              v-if="
+                [
+                  postStatuses.DRAFT.value,
+                  postStatuses.INTIMATE.value,
+                  postStatuses.TO_BE_AUDIT.value,
+                  postStatuses.AUDIT_NO_PASS.value
+                ].includes(post.status)
+              "
+              class="!p-0"
+              type="link"
+              @click="handleEditClick(post)"
+            >
+              编辑
+            </a-button>
 
-              <a-popconfirm
-                v-else-if="post.status === postStatuses.RECYCLE.value"
-                :title="'确定要发布【' + post.title + '】文章？'"
-                cancelText="取消"
-                okText="确定"
-                @confirm="handleChangeStatus(post.id, postStatuses.PUBLISHED.value)"
-              >
-                <a-button class="!p-0" type="link">还原</a-button>
-              </a-popconfirm>
+            <a-popconfirm
+              v-else-if="post.status === postStatuses.RECYCLE.value"
+              :title="'确定要发布【' + post.title + '】文章？'"
+              cancelText="取消"
+              okText="确定"
+              @confirm="handleChangeStatus(post.id, postStatuses.PUBLISHED.value)"
+            >
+              <a-button class="!p-0" type="link">还原</a-button>
+            </a-popconfirm>
 
-              <a-divider type="vertical" />
+            <a-divider
+              v-if="
+                [
+                  postStatuses.DRAFT.value,
+                  postStatuses.INTIMATE.value,
+                  postStatuses.TO_BE_AUDIT.value,
+                  postStatuses.AUDIT_NO_PASS.value
+                ].includes(post.status)
+              "
+              type="vertical"
+            />
 
-              <a-popconfirm
-                v-if="
-                  [postStatuses.PUBLISHED.value, postStatuses.DRAFT.value, postStatuses.INTIMATE.value].includes(
-                    post.status
-                  )
-                "
-                :title="'确定要删除【' + post.title + '】文章？'"
-                cancelText="取消"
-                okText="确定"
-                @confirm="handleChangeStatus(post.id, postStatuses.RECYCLE.value)"
-              >
-                <a-button class="!p-0" type="link">删除</a-button>
-              </a-popconfirm>
+            <a-popconfirm
+              v-if="
+                [
+                  postStatuses.PUBLISHED.value,
+                  postStatuses.DRAFT.value,
+                  postStatuses.INTIMATE.value,
+                  postStatuses.TO_BE_AUDIT.value,
+                  postStatuses.AUDIT_NO_PASS.value
+                ].includes(post.status)
+              "
+              :title="'确定要删除【' + post.title + '】文章？'"
+              cancelText="取消"
+              okText="确定"
+              @confirm="handleChangeStatus(post.id, postStatuses.RECYCLE.value)"
+            >
+              <a-button class="!p-0" type="link">删除</a-button>
+            </a-popconfirm>
 
-              <a-popconfirm
-                v-else-if="post.status === postStatuses.RECYCLE.value"
-                :title="'确定要永久删除【' + post.title + '】文章？'"
-                cancelText="取消"
-                okText="确定"
-                @confirm="handleDelete(post.id)"
-              >
-                <a-button class="!p-0" type="link">删除</a-button>
-              </a-popconfirm>
+            <a-popconfirm
+              v-else-if="post.status === postStatuses.RECYCLE.value"
+              :title="'确定要永久删除【' + post.title + '】文章？'"
+              cancelText="取消"
+              okText="确定"
+              @confirm="handleDelete(post.id)"
+            >
+              <a-button class="!p-0" type="link">删除</a-button>
+            </a-popconfirm>
 
-              <a-divider type="vertical" />
+            <a-divider type="vertical" />
 
-              <a-button class="!p-0" type="link" @click="handleOpenPostSettings(post)">设置</a-button>
-            </span>
-            <span v-else>
-              <a-button @click="handleAudit(post.id)" type="link"> 审核 </a-button>
-            </span>
+            <a-button class="!p-0" type="link" @click="handleOpenPostSettings(post)">设置</a-button>
           </template>
         </a-table>
         <div class="page-wrapper">

@@ -31,7 +31,6 @@ export default {
   methods: {
     ...mapActions(['refreshOptionsCache']),
     onLogoClick: throttle(async function () {
-      console.log('clicked!')
       this.clickCount++
       if (this.clickCount === 10) {
         try {

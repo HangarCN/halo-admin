@@ -257,10 +257,10 @@ export const constantRouterMap = [
     component: () => import('@/views/user/Login')
   },
   {
-    path: '/authorizationLogin',
-    name: 'AuthorizationLogin',
-    component: () => import('@/views/user/AuthorizationCodeLogin'),
-    meta: { title: '授权码登录' }
+    path: '/login/authorization-code',
+    name: 'AuthorizationCode',
+    meta: { title: '授权码登录' },
+    component: () => import('@/views/login/AuthorizationCode')
   },
   {
     path: '/install',

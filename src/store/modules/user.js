@@ -43,6 +43,7 @@ const user = {
         hangarApiClient
           .get('/api/admin/user-info')
           .then(result => {
+            console.log('用户信息', result)
             commit('SET_USER', result.data.data)
             resolve(result)
           })

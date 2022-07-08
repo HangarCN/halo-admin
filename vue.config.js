@@ -36,10 +36,10 @@ module.exports = defineConfig({
     port: 8001,
     proxy: {
       '/oauth2': {
-        target: 'http://10.10.10.107:9000'
+        target: process.env.VUE_APP_AUTHORIZATION_SERVER_URI
       },
       '/api/admin': {
-        target: 'http://10.10.10.107:9000/halo-admin',
+        target: 'http://127.0.0.1:9000/halo-admin',
         ws: true,
         changeOrigin: true
       }
